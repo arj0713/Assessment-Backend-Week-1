@@ -9,13 +9,11 @@ days_api/test_date_functions.py .........................                [100%]
 
 ========================= 3 failed, 82 passed in 0.21s =========================
 ************* Module app
-days_api/app.py:88:8: W0622: Redefining built-in 'filter' (redefined-builtin)
 days_api/app.py:72:4: W0603: Using the global statement (global-statement)
 days_api/app.py:66:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-days_api/app.py:7:0: W0611: Unused Response imported from flask (unused-import)
 ************* Module date_functions
-days_api/date_functions.py:11:8: W0707: Consider explicitly re-raising using 'except ValueError as exc' and 'raise ValueError('Unable to convert value to datetime.') from exc' (raise-missing-from)
+days_api/date_functions.py:12:8: W0707: Consider explicitly re-raising using 'except ValueError as exc' and 'raise ValueError('Unable to convert value to datetime.') from exc' (raise-missing-from)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.77/10 (previous run: 9.77/10, +0.00)
+Your code has been rated at 9.86/10 (previous run: 9.86/10, +0.00)
 
