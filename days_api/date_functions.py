@@ -14,6 +14,8 @@ def convert_to_datetime(date: str) -> datetime:
 
 
 def get_days_between(first: datetime, last: datetime) -> int:
+    if not (isinstance(first, datetime) and isinstance(last, datetime)):
+        raise TypeError("Datetimes required.")
     return (last-first).days
 
 
