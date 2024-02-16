@@ -4,11 +4,17 @@ from datetime import datetime
 
 
 def convert_to_datetime(date: str) -> datetime:
-    return datetime.strptime(date, "%d.%m.%Y")
+    if not isinstance(date, str):
+        raise TypeError("Input must be a string")
+    try:
+        date = datetime.strptime(date, "%d.%m.%Y")
+    except ValueError:
+        raise ValueError("Unable to convert value to datetime.")
+    return date
 
 
 def get_days_between(first: datetime, last: datetime) -> int:
-    pass
+    return (last-first).days
 
 
 def get_day_of_week_on(date: datetime) -> str:
