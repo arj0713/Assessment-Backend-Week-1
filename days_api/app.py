@@ -25,12 +25,14 @@ def add_to_history(current_request):
 @app.get("/")
 def index():
     """Returns an API welcome message."""
+
     return jsonify({"message": "Welcome to the Days API."})
 
 
 @app.route("/between", methods=["POST"])
 def post_for_days_between():
     """Returns the days between two posted dates"""
+
     data = request.json
     if not all(k in data for k in ["first", "last"]):
         return jsonify({"error": "Missing required data."}), 400
@@ -47,6 +49,7 @@ def post_for_days_between():
 @app.route("/weekday", methods=["POST"])
 def post_for_get_weekday():
     """Returns the day of the week for a given date string"""
+
     data = request.json
     if "date" not in data:
         return jsonify({"error": "Missing required data."}), 400
@@ -57,6 +60,31 @@ def post_for_get_weekday():
         return jsonify({"error": "Unable to convert value to datetime."}), 400
     add_to_history(request)
     return jsonify({"weekday": day})
+
+
+@app.route("/history", methods=["GET", "DELETE"])
+def get_or_delete_history():
+    """
+    Returns a history list if given a GET request
+    Clears history list if given a DELETE request
+    """
+
+    if request.method == "GET":
+        if "number" in request.args:
+            if request.args["number"].isdigit() and int(request.args["number"]) in range(1, 21):
+                number = int(request.args["number"])
+            else:
+                return jsonify({"error": "Number must be an integer between 1 and 20."}), 400
+        else:
+            number = 5
+
+        if number > len(app_history):
+            number = len(app_history)
+
+        return jsonify(app_history[:number])
+
+    if request.method == "DELETE":
+        pass
 
 
 if __name__ == "__main__":
