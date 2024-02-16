@@ -85,9 +85,9 @@ def history():
         if number > len(app_history):
             number = len(app_history)
 
-        filter = app_history[:number]
+        filtered = app_history[-number:]
 
-        return jsonify(filter[::-1])
+        return jsonify(filtered[::-1])
 
     if request.method == "DELETE":
         app_history = []
