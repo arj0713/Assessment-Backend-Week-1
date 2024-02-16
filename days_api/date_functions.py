@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def convert_to_datetime(date: str) -> datetime:
-    pass
+    return datetime.strptime(date, "%d.%m.%Y")
 
 
 def get_days_between(first: datetime, last: datetime) -> int:
