@@ -22,9 +22,16 @@ def add_to_history(current_request):
     })
 
 
+def datetime_validation(date: str):
+    try:
+        return convert_to_datetime(date)
+    except ValueError:
+        return jsonify({"error": "Unable to convert value to datetime."}), 400
+
+
 @app.get("/")
 def index():
-    """Returns an API welcome messsage."""
+    """Returns an API welcome message."""
     return jsonify({"message": "Welcome to the Days API."})
 
 
@@ -32,15 +39,27 @@ def index():
 def post_for_days_between():
     """Returns the days between two posted dates"""
     data = request.json
-    if not ("first" in data or "last" in data):
+    if not all(k in data for k in ["first", "last"]):
         return jsonify({"error": "Missing required data."}), 400
     try:
         first = convert_to_datetime(data["first"])
         last = convert_to_datetime(data["last"])
-    except ValueError:
+        days = get_days_between(first, last)
+    except (ValueError, TypeError):
         return jsonify({"error": "Unable to convert value to datetime."}), 400
-    days = get_days_between(first, last)
+    add_to_history(request)
     return jsonify({"days": days}), 200
+
+
+@app.route("/weekday", methods=["POST"])
+def post_for_get_weekday():
+    """Returns the day of the week for a given date string"""
+    data = request.json
+    if "date" not in data:
+        return jsonify({"error": "Missing required data."}), 400
+    date = datetime_validation(data["date"])
+    day = get_day_of_week_on(date)
+    return jsonify({"weekday": day})
 
 
 if __name__ == "__main__":
