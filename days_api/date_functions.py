@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 def convert_to_datetime(date: str) -> datetime:
+    """Takes a string and returns a datetime"""
     if not isinstance(date, str):
         raise TypeError("Input must be a string")
     try:
@@ -14,10 +15,12 @@ def convert_to_datetime(date: str) -> datetime:
 
 
 def get_days_between(first: datetime, last: datetime) -> int:
+    """Finds the difference between two datetimes and returns as an integer"""
     if not (isinstance(first, datetime) and isinstance(last, datetime)):
         raise TypeError("Datetimes required.")
     return (last-first).days
 
 
 def get_day_of_week_on(date: datetime) -> str:
-    pass
+    """Takes a datetime and return the day of the week it occurs on"""
+    return datetime.strftime(date, "%A")
