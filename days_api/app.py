@@ -22,13 +22,6 @@ def add_to_history(current_request):
     })
 
 
-def datetime_validation(date: str):
-    try:
-        return convert_to_datetime(date)
-    except ValueError:
-        return jsonify({"error": "Unable to convert value to datetime."}), 400
-
-
 @app.get("/")
 def index():
     """Returns an API welcome message."""
@@ -57,8 +50,12 @@ def post_for_get_weekday():
     data = request.json
     if "date" not in data:
         return jsonify({"error": "Missing required data."}), 400
-    date = datetime_validation(data["date"])
-    day = get_day_of_week_on(date)
+    try:
+        date = convert_to_datetime(data["date"])
+        day = get_day_of_week_on(date)
+    except (ValueError, TypeError):
+        return jsonify({"error": "Unable to convert value to datetime."}), 400
+    add_to_history(request)
     return jsonify({"weekday": day})
 
 
