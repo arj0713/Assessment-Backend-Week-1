@@ -30,7 +30,7 @@ def index():
 
 
 @app.route("/between", methods=["POST"])
-def post_for_days_between():
+def between():
     """Returns the days between two posted dates"""
 
     data = request.json
@@ -47,7 +47,7 @@ def post_for_days_between():
 
 
 @app.route("/weekday", methods=["POST"])
-def post_for_get_weekday():
+def weekday():
     """Returns the day of the week for a given date string"""
 
     data = request.json
@@ -63,11 +63,13 @@ def post_for_get_weekday():
 
 
 @app.route("/history", methods=["GET", "DELETE"])
-def get_or_delete_history():
+def history():
     """
     Returns a history list if given a GET request
     Clears history list if given a DELETE request
     """
+
+    global app_history
 
     if request.method == "GET":
         if "number" in request.args:
@@ -78,13 +80,18 @@ def get_or_delete_history():
         else:
             number = 5
 
+        add_to_history(request)
+
         if number > len(app_history):
             number = len(app_history)
 
-        return jsonify(app_history[:number])
+        filter = app_history[:number]
+
+        return jsonify(filter[::-1])
 
     if request.method == "DELETE":
-        pass
+        app_history = []
+        return jsonify({"status": "History cleared"})
 
 
 if __name__ == "__main__":
