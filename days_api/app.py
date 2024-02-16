@@ -4,7 +4,7 @@
 
 from datetime import datetime
 
-from flask import Flask, Response, request, jsonify
+from flask import Flask, request, jsonify
 
 from date_functions import convert_to_datetime, get_day_of_week_on, get_days_between
 
